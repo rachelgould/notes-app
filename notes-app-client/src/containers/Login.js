@@ -3,7 +3,7 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { Auth } from 'aws-amplify';
 import "./Login.css";
 
-function Login() {
+function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -26,7 +26,7 @@ function Login() {
     event.preventDefault();
     try {
       await Auth.signIn(email, password);
-      alert(`Logged in! Welcome back ${email}!`)
+      props.userHasAuthenticated(true);
     } catch (e) {
       alert(e.message);
     }
