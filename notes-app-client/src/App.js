@@ -1,17 +1,31 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { Auth } from 'aws-amplify';
 import "./App.css";
 import Routes from './Routes';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticating, setIsAuthenticating] = useState(true);
   const userHasAuthenticated = auth => setIsAuthenticated(auth);
   const childProps = {
     isAuthenticated: isAuthenticated,
     userHasAuthenticated: userHasAuthenticated
-  }
+  };
+
+  useEffect(async () => {
+    try {
+      await Auth.currentSession();
+      userHasAuthenticated(true);
+    } catch (e) {
+      if (e !== 'No current user') {
+        alert(e);
+      }
+    }
+    setIsAuthenticating(false);
+  }, []);
 
   const handleLogout = event => {
     userHasAuthenticated(false);
