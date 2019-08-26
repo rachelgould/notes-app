@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "react-bootstrap";
 import "./App.css";
+import Routes from './Routes';
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
           <Navbar.Toggle />
         </Navbar.Header>
       </Navbar>
+      {/* As we navigate to different routes, the portion below the nav bar will change to whatever page is being requested. */}
+      <Routes /> 
     </div>
   );
 }
