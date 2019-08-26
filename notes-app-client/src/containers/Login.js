@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { Auth } from 'aws-amplify';
+import LoaderButton from '../components/LoaderButton';
 import "./Login.css";
 
 function Login(props) {
@@ -56,14 +57,15 @@ function Login(props) {
             type='password'
           />
         </FormGroup>
-        <Button
+        <LoaderButton
           block
           bsSize='large'
           disabled={!validateForm()}
           type='submit'
-        >
-          Login
-        </Button>
+          isLoading={isLoading}
+          text='Login'
+          loadingText='Logging in...'
+        />
       </form>
     </div>
   );
