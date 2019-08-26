@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Navbar } from "react-bootstrap";
+import { Nav, Navbar, NavItem } from "react-bootstrap";
 import "./App.css";
 import Routes from './Routes';
 
@@ -14,6 +14,12 @@ function App() {
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
+        <Navbar.Collapse>
+          <Nav pullRight>
+            <NavItem href='/signup'>Signup</NavItem>
+            <NavItem href='/login'>Login</NavItem>
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
       {/* As we navigate to different routes, the portion below the nav bar will change to whatever page is being requested. */}
       <Routes /> 
