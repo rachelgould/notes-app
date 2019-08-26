@@ -27,7 +27,8 @@ function App() {
     setIsAuthenticating(false);
   }, []);
 
-  const handleLogout = event => {
+  const handleLogout = async event => {
+    await Auth.signOut();
     userHasAuthenticated(false);
   }
 
