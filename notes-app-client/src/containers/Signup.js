@@ -7,6 +7,7 @@ import {
 } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import "./Signup.css";
+import { Auth } from "aws-amplify";
 
 function Signup(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -44,13 +45,33 @@ function Signup(props) {
   const handleSubmit = async event => {
     event.preventDefault();
     setIsLoading(true);
-    setNewUser("test");
+    
+    try {
+      const newUser = await Auth.signUp({
+        username: email,
+        password: password
+      });
+      setNewUser(newUser);
+    } catch (e) {
+      alert(e.message);
+    }
+
     setIsLoading(false);
   }
 
   const handleConfirmationSubmit = async event => {
     event.preventDefault();
     setIsLoading(true);
+
+    try {
+      await Auth.confirmSignUp(email, confirmationCode);
+      await Auth.signIn(email, password);
+      props.userHasAuthenticated(true);
+      props.history.push('/');
+    } catch (e) {
+      alert(e.message);
+      setIsLoading(false);
+    }
   }
 
   const renderConfirmationForm = () => {
