@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { API } from "aws-amplify";
 import LoaderButton from "../components/LoaderButton";
 import config from "../config";
 import "./NewNote.css";
+import { createContext } from "vm";
 
 function NewNote(props) {
   const [isLoading, setIsLoading] = useState(null);
   const [content, setContent] = useState('');
   let file = null;
 
+  const createNote = note => {
+    return API.post('notes', '/notes', {
+      body: note
+    });
+  }
+  
   const validateForm = () => {
     return content.length > 0;
   }
@@ -33,6 +41,16 @@ function NewNote(props) {
       return;
     }
     setIsLoading(true);
+
+    try {
+      await createNote({
+        content: content
+      });
+      props.history.push('/');
+    } catch (e) {
+      alert(e);
+      setIsLoading(false);
+    }
   }
 
   return (
