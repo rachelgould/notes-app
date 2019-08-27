@@ -15,15 +15,18 @@ function App(props) {
     userHasAuthenticated: userHasAuthenticated
   };
 
-  useEffect(async () => {
-    try {
-      await Auth.currentSession();
-      userHasAuthenticated(true);
-    } catch (e) {
-      if (e !== 'No current user') {
-        alert(e);
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        await Auth.currentSession();
+        userHasAuthenticated(true);
+      } catch (e) {
+        if (e !== 'No current user') {
+          alert(e);
+        }
       }
     }
+    fetchSession();
     setIsAuthenticating(false);
   }, []);
 
