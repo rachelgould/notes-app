@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { API, Storage } from "aws-amplify";
+import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
+import config from "../config";
+import "./Notes.css";
 
-export function Notes(props) {
+function Notes(props) {
   const [note, setNote] = useState(null);
   const [content, setContent] = useState('');
   const [attachmentURL, setAttachmentURL] = useState(null);
@@ -136,3 +139,5 @@ export function Notes(props) {
     </div>
   );
 }
+
+export default Notes
