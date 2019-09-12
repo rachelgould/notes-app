@@ -14,34 +14,30 @@ function Notes(props) {
   let file = null;
 
   useEffect(() => {
-    let attachmentURL;
-
-    const getNote = async () => {
+    const fetchNote = async () => {
       try {
-        return await API.get('notes', `/notes/${props.match.params.id}`);
+        let note = await API.get('notes', `/notes/${props.match.params.id}`);
+        const {content, attachment } = note;
+        setNote(note);
+        setContent(content);
+        if (attachment) {
+          let attachmentURL = await getAttachment(attachment);
+          setAttachmentURL(attachmentURL);
+        }
       } catch (e) {
         alert(e);
       }
     }
 
-    const getAttachment = async (attachment) => {
+    const getAttachment = async attachment => {
       try {
-        return await Storage.vault.get(attachment);
+        let attachmentURL = await Storage.vault.get(attachment);
+        return attachmentURL;
       } catch (e) {
         alert(e)
       }
     }
-
-    const note = getNote();
-    const { content, attachment } = note;
-
-    if (attachment) {
-      attachmentURL = getAttachment(attachment);
-    }
-
-    setNote(note);
-    setContent(content);
-    setAttachmentURL(attachmentURL);
+    fetchNote();
   }, []);
 
   const validateForm = () => {
@@ -130,8 +126,8 @@ function Notes(props) {
               block
               bsStyle="danger"
               bsSize="large"
-              isLoading={this.state.isDeleting}
-              onClick={this.handleDelete}
+              isLoading={isDeleting}
+              onClick={handleDelete}
               text="Delete"
               loadingText="Deleting…"
             />
