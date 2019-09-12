@@ -6,7 +6,7 @@ import Login from './containers/Login';
 import AppliedRoute from './components/AppliedRoute';
 import Signup from './containers/Signup';
 import NewNote from "./containers/NewNote";
-import * as Notes from "./containers/Notes";
+import Notes from "./containers/Notes";
 
 export default ({ childProps }) =>
   // Switch renders the first matching route that is defined within it
